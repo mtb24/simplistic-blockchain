@@ -1,0 +1,24 @@
+{
+  "name": "simplistic-blockchain",
+  "version": "0.0.1",
+  "description": "Simple Javascript Blockchain ",
+  "main": "main.js",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://mtb24@github.com/mtb24/simplistic-blockchain.git"
+  },
+  "keywords": "blockchain,javascript",
+  "author": "mtb24",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mtb24/simplistic-blockchain/issues"
+  },
+  "homepage": "https://github.com/mtb24/simplistic-blockchain#readme"
+}
