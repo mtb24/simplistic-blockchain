@@ -7,17 +7,29 @@ class Block{
         this.timestamp = timestamp,
         this.data = data,
         this.upstreamHash = upstreamHash,
-        this.hash = this.calculateHash()
+        this.hash = this.calculateHash(),
+        this.nonce = 0;
     }
 
     calculateHash(){
-        return SHA256(this.index + this.timestamp + JSON.stringify(this.data) + this.upstreamHash).toString();
+        return SHA256(this.index + this.timestamp + JSON.stringify(this.data) + this.upstreamHash, + this.nonce).toString();
+    }
+
+    mineBlock(difficultyLevel){
+        // loop until beginning of hash matches difficultyLevel (string begins with n zeros)
+        while( this.hash.substring(0, difficultyLevel) !== Array(difficultyLevel + 1).join("0") ){
+            this.nonce++;
+            this.hash = this.calculateHash();
+        }
+
+        console.log("Block mined: " + this.hash);
     }
 }
 
 class BlockChain{
     constructor(){
         this.chain = [ this.createSourceBlock() ];
+        this.difficultyLevel = 2;
     }
 
     createSourceBlock(){
@@ -31,8 +43,7 @@ class BlockChain{
     addBlock(newBlock){
         // new block points to upstream block's hash
         newBlock.upstreamHash = this.getLatestBlock().hash;
-        // must rehash now...
-        newBlock.hash = newBlock.calculateHash();
+        newBlock.mineBlock(this.difficultyLevel);
         // put the block on the chain
         this.chain.push(newBlock);
     }
@@ -56,8 +67,11 @@ class BlockChain{
 }
 
 let K2coin = new BlockChain();
+
+console.log("mining block 1...");
 K2coin.addBlock( new Block(1, "12/26/2017", {id:1,amount:2000}) );
+console.log("mining block 2...");
 K2coin.addBlock( new Block(2, "12/26/2017", {id:2,amount:3000}) );
 
-console.log( JSON.stringify(K2coin, null, 4) );
-console.log("is chain valid? ", K2coin.isChainValid());
+//console.log( JSON.stringify(K2coin, null, 4) );
+//console.log("is chain valid? ", K2coin.isChainValid());
